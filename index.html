@@ -834,7 +834,7 @@
             border: 1px solid rgba(42,74,127,0.3);
             box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 40px rgba(0,0,0,0.3);
         }
-        .cb-panel.cb-open { display: flex; animation: cb-slide-up 0.3s ease forwards; }
+        .cb-panel.cb-open { display: flex !important; animation: cb-slide-up 0.3s ease forwards; }
         @keyframes cb-slide-up {
             from { opacity: 0; transform: translateY(20px) scale(0.95); }
             to { opacity: 1; transform: translateY(0) scale(1); }
@@ -846,7 +846,8 @@
             padding: 14px 16px;
             background: #0F1320;
             border-bottom: 1px solid rgba(42,74,127,0.25);
-            flex-shrink: 0;
+            flex-shrink: 0 !important;
+            min-height: 56px;
         }
         .cb-header-logo { width: 36px; height: 36px; flex-shrink: 0; }
         .cb-header-logo img { width: 100%; height: 100%; object-fit: contain; }
@@ -864,9 +865,9 @@
         }
         .cb-close:hover { background: rgba(255,255,255,0.15); color: #fff; }
         .cb-messages {
-            flex: 1; overflow-y: auto; padding: 16px;
+            flex: 1 1 0%; overflow-y: auto; overflow-x: hidden; padding: 16px;
             display: flex; flex-direction: column; gap: 10px;
-            background: #0D0D16; min-height: 0;
+            background: #0D0D16; min-height: 0 !important;
             -webkit-overflow-scrolling: touch; overscroll-behavior: contain;
         }
         .cb-msg {
@@ -882,7 +883,8 @@
         @keyframes cb-dot { 0%,60%,100% { transform: translateY(0); opacity: 0.4; } 30% { transform: translateY(-6px); opacity: 1; } }
         .cb-input-area {
             display: flex; align-items: center; gap: 8px; padding: 12px 14px;
-            background: #0F1320; border-top: 1px solid rgba(42,74,127,0.25); flex-shrink: 0;
+            background: #0F1320; border-top: 1px solid rgba(42,74,127,0.25);
+            flex-shrink: 0 !important; min-height: 56px;
         }
         .cb-input {
             flex: 1; background: rgba(255,255,255,0.07); border: 1px solid rgba(42,74,127,0.3);
@@ -1071,12 +1073,17 @@
             .footer-grid { grid-template-columns: 1fr; gap: 32px; }
             .cb-panel {
                 position: fixed !important;
-                inset: 0 !important;
-                width: 100% !important;
-                height: 100% !important;
+                top: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                width: 100vw !important;
+                height: 100vh !important;
+                height: 100dvh !important;
                 max-height: none !important;
                 border-radius: 0 !important;
                 border: none !important;
+                margin: 0 !important;
             }
             .cb-header { padding-top: max(14px, env(safe-area-inset-top, 14px)); }
             .cb-input-area { padding-bottom: max(12px, env(safe-area-inset-bottom, 12px)); }
@@ -1769,19 +1776,30 @@ REGLAS ABSOLUTAS:
 const INITIAL_MSG = '¿Quieres ganar dinero de verdad? 💰 En ANDEBULL no buscamos empleados, buscamos personas con mentalidad de ventas. Comisiones sin tope, formación pagada y tardes libres. ¿Te interesa saber cómo funciona?';
 
 // --- Open / Close ---
+var savedScrollY = 0;
 function openChat() {
     isOpen = true;
+    savedScrollY = window.scrollY;
     panel.classList.add('cb-open');
     btn.classList.add('cb-hidden');
     document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.width = '100%';
+    document.body.style.top = -savedScrollY + 'px';
     if (messagesEl.children.length === 0) addMsg(INITIAL_MSG, 'bot');
-    setTimeout(function(){ input.focus(); scrollBottom(); }, 350);
+    setTimeout(function(){ input.focus(); scrollBottom(); adjustChatHeight(); }, 350);
 }
 function closeChat() {
     isOpen = false;
     panel.classList.remove('cb-open');
     btn.classList.remove('cb-hidden');
     document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.width = '';
+    document.body.style.top = '';
+    window.scrollTo(0, savedScrollY);
+    panel.style.height = '';
+    panel.style.top = '';
 }
 closeBtn.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); closeChat(); });
 
@@ -1894,15 +1912,34 @@ async function sendMessage(){
 sendBtn.addEventListener('click', sendMessage);
 input.addEventListener('keydown', function(e){ if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); sendMessage(); } });
 
-// --- Mobile keyboard ---
-if(window.visualViewport){
-    window.visualViewport.addEventListener('resize', function(){
-        if(isOpen){ panel.style.height = window.visualViewport.height+'px'; scrollBottom(); }
-    });
-    window.visualViewport.addEventListener('scroll', function(){
-        if(isOpen){ panel.style.top = window.visualViewport.offsetTop+'px'; }
-    });
+// --- Mobile keyboard fix ---
+function adjustChatHeight() {
+    if (!isOpen) return;
+    if (window.visualViewport) {
+        var vh = window.visualViewport.height;
+        panel.style.height = vh + 'px';
+        panel.style.top = window.visualViewport.offsetTop + 'px';
+    }
+    scrollBottom();
 }
+if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', adjustChatHeight);
+    window.visualViewport.addEventListener('scroll', adjustChatHeight);
+}
+input.addEventListener('focus', function() {
+    setTimeout(adjustChatHeight, 100);
+    setTimeout(adjustChatHeight, 300);
+    setTimeout(adjustChatHeight, 500);
+});
+input.addEventListener('blur', function() {
+    setTimeout(function() {
+        if (isOpen) {
+            panel.style.height = '';
+            panel.style.top = '';
+            if (window.innerWidth <= 768) panel.style.height = '100dvh';
+        }
+    }, 100);
+});
 })();
 
 // ===== Earnings Calculator =====
