@@ -796,33 +796,71 @@
             position: fixed;
             bottom: 24px;
             right: 24px;
-            width: 64px;
-            height: 64px;
+            width: 68px;
+            height: 68px;
             border-radius: 50%;
-            background: var(--accent-gold);
-            border: 3px solid rgba(255, 255, 255, 0.9);
             cursor: grab;
-            z-index: 1001;
+            z-index: 9999;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 20px rgba(212, 168, 83, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
-            overflow: hidden;
-            animation: pulseGlow 2s ease-in-out infinite;
+            background: radial-gradient(circle at 35% 35%, #E8BF6A 0%, #D4A853 40%, #B8912F 100%);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            box-shadow:
+                0 8px 24px rgba(0, 0, 0, 0.5),
+                0 4px 12px rgba(0, 0, 0, 0.3),
+                0 0 20px rgba(212, 168, 83, 0.4),
+                inset 0 2px 4px rgba(255, 255, 255, 0.3),
+                inset 0 -3px 6px rgba(0, 0, 0, 0.2);
+            transform: perspective(200px) rotateX(5deg);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            animation: chatbotPulse 3s ease-in-out infinite;
         }
         .chat-toggle:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 30px rgba(212, 168, 83, 0.7), 0 4px 12px rgba(0, 0, 0, 0.4);
-            border-color: #FFFFFF;
+            transform: perspective(200px) rotateX(0deg) scale(1.08);
+            box-shadow:
+                0 12px 32px rgba(0, 0, 0, 0.6),
+                0 6px 16px rgba(0, 0, 0, 0.4),
+                0 0 30px rgba(212, 168, 83, 0.6),
+                inset 0 2px 4px rgba(255, 255, 255, 0.4),
+                inset 0 -3px 6px rgba(0, 0, 0, 0.15);
+        }
+        .chat-toggle:active {
+            transform: perspective(200px) rotateX(2deg) scale(0.95);
+            box-shadow:
+                0 4px 12px rgba(0, 0, 0, 0.5),
+                0 2px 6px rgba(0, 0, 0, 0.3),
+                0 0 15px rgba(212, 168, 83, 0.3),
+                inset 0 1px 2px rgba(255, 255, 255, 0.2),
+                inset 0 -2px 4px rgba(0, 0, 0, 0.3);
         }
         .chat-toggle.active { animation: none; }
-        @keyframes pulseGlow {
-            0%, 100% { box-shadow: 0 4px 20px rgba(212, 168, 83, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3); }
-            50% { box-shadow: 0 4px 30px rgba(212, 168, 83, 0.8), 0 2px 8px rgba(0, 0, 0, 0.3); }
+        @keyframes chatbotPulse {
+            0%, 100% {
+                box-shadow:
+                    0 8px 24px rgba(0, 0, 0, 0.5),
+                    0 4px 12px rgba(0, 0, 0, 0.3),
+                    0 0 20px rgba(212, 168, 83, 0.4),
+                    inset 0 2px 4px rgba(255, 255, 255, 0.3),
+                    inset 0 -3px 6px rgba(0, 0, 0, 0.2);
+            }
+            50% {
+                box-shadow:
+                    0 8px 24px rgba(0, 0, 0, 0.5),
+                    0 4px 12px rgba(0, 0, 0, 0.3),
+                    0 0 35px rgba(212, 168, 83, 0.7),
+                    inset 0 2px 4px rgba(255, 255, 255, 0.3),
+                    inset 0 -3px 6px rgba(0, 0, 0, 0.2);
+            }
         }
-        .chat-toggle img { width: 36px; height: 36px; object-fit: contain; }
-        .chat-toggle .close-icon { display: none; }
+        .chat-toggle img {
+            width: 38px;
+            height: 38px;
+            object-fit: contain;
+            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+            pointer-events: none;
+        }
+        .chat-toggle .close-icon { display: none; pointer-events: none; }
         .chat-toggle.active img { display: none; }
         .chat-toggle.active .close-icon { display: block; color: white; }
 
@@ -1907,65 +1945,92 @@ chatInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') sendMessage();
 });
 
-// ===== Draggable Chatbot Button =====
-let isDragging = false;
-let hasDragged = false;
-let dragStartX, dragStartY, dragInitialX, dragInitialY;
+// ===== Draggable Chatbot Button (IIFE) =====
+(function() {
+    const chatBtn = chatToggle;
+    if (!chatBtn) return;
 
-function dragStart(e) {
-    isDragging = true;
-    hasDragged = false;
-    const touch = e.type === 'touchstart' ? e.touches[0] : e;
-    dragStartX = touch.clientX;
-    dragStartY = touch.clientY;
-    const rect = chatToggle.getBoundingClientRect();
-    dragInitialX = rect.left;
-    dragInitialY = rect.top;
-    chatToggle.style.transition = 'none';
-}
+    let isDragging = false;
+    let hasDragged = false;
+    let startX, startY, initialX, initialY;
+    const dragThreshold = 8;
 
-function dragMove(e) {
-    if (!isDragging) return;
-    const touch = e.type === 'touchmove' ? e.touches[0] : e;
-    const dx = touch.clientX - dragStartX;
-    const dy = touch.clientY - dragStartY;
-    if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
-        hasDragged = true;
-        if (e.cancelable) e.preventDefault();
+    function getPos(e) {
+        if (e.touches && e.touches.length > 0) return e.touches[0];
+        if (e.changedTouches && e.changedTouches.length > 0) return e.changedTouches[0];
+        return e;
     }
-    let newX = Math.max(0, Math.min(window.innerWidth - chatToggle.offsetWidth, dragInitialX + dx));
-    let newY = Math.max(0, Math.min(window.innerHeight - chatToggle.offsetHeight, dragInitialY + dy));
-    chatToggle.style.left = newX + 'px';
-    chatToggle.style.top = newY + 'px';
-    chatToggle.style.right = 'auto';
-    chatToggle.style.bottom = 'auto';
-}
 
-function dragEnd() {
-    isDragging = false;
-    chatToggle.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
-}
+    function onStart(e) {
+        const pos = getPos(e);
+        startX = pos.clientX;
+        startY = pos.clientY;
+        const rect = chatBtn.getBoundingClientRect();
+        initialX = rect.left;
+        initialY = rect.top;
+        isDragging = true;
+        hasDragged = false;
+        chatBtn.style.transition = 'none';
+        chatBtn.style.cursor = 'grabbing';
+        e.preventDefault();
+    }
 
-chatToggle.addEventListener('mousedown', dragStart);
-chatToggle.addEventListener('touchstart', dragStart, { passive: false });
-document.addEventListener('mousemove', dragMove);
-document.addEventListener('touchmove', dragMove, { passive: false });
-document.addEventListener('mouseup', dragEnd);
-document.addEventListener('touchend', dragEnd);
+    function onMove(e) {
+        if (!isDragging) return;
+        const pos = getPos(e);
+        const dx = pos.clientX - startX;
+        const dy = pos.clientY - startY;
 
-chatToggle.addEventListener('click', (e) => {
-    if (hasDragged) {
+        if (!hasDragged && (Math.abs(dx) > dragThreshold || Math.abs(dy) > dragThreshold)) {
+            hasDragged = true;
+        }
+
+        if (hasDragged) {
+            e.preventDefault();
+            const margin = 8;
+            let newX = Math.max(margin, Math.min(window.innerWidth - chatBtn.offsetWidth - margin, initialX + dx));
+            let newY = Math.max(margin, Math.min(window.innerHeight - chatBtn.offsetHeight - margin, initialY + dy));
+            chatBtn.style.position = 'fixed';
+            chatBtn.style.left = newX + 'px';
+            chatBtn.style.top = newY + 'px';
+            chatBtn.style.right = 'auto';
+            chatBtn.style.bottom = 'auto';
+        }
+    }
+
+    function toggleChatbot() {
+        chatBtn.classList.toggle('active');
+        chatPanel.classList.toggle('active');
+        if (chatPanel.classList.contains('active')) {
+            chatInput.focus();
+        }
+    }
+
+    function onEnd() {
+        if (!isDragging) return;
+        isDragging = false;
+        chatBtn.style.cursor = 'grab';
+        chatBtn.style.transition = 'box-shadow 0.3s ease, transform 0.3s ease';
+
+        if (!hasDragged) {
+            toggleChatbot();
+        }
+        hasDragged = false;
+    }
+
+    chatBtn.addEventListener('mousedown', onStart);
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onEnd);
+    chatBtn.addEventListener('touchstart', onStart, { passive: false });
+    document.addEventListener('touchmove', onMove, { passive: false });
+    document.addEventListener('touchend', onEnd);
+
+    // Block any other click handlers — toggle is handled in onEnd
+    chatBtn.addEventListener('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
-        hasDragged = false;
-        return;
-    }
-    chatToggle.classList.toggle('active');
-    chatPanel.classList.toggle('active');
-    if (chatPanel.classList.contains('active')) {
-        chatInput.focus();
-    }
-}, true);
+    });
+})();
 
 // ===== Earnings Calculator =====
 const calcSlider = document.getElementById('calcSlider');
