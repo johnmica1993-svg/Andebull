@@ -11,27 +11,36 @@
     <style>
         /* ===== CSS Custom Properties ===== */
         :root {
-            --bg-primary: #0A0A0F;
-            --bg-secondary: #0F1118;
+            /* Fondos claros — crema premium */
+            --bg-primary: #F5F0EB;
+            --bg-secondary: #EDE7E0;
+            /* Fondos oscuros — para secciones de contraste */
+            --bg-dark: #0A0A0F;
+            --bg-dark-secondary: #0F1118;
             --bg-card: rgba(15, 20, 35, 0.7);
+            /* Acentos */
             --accent-blue: #2A4A7F;
             --accent-blue-light: #3D6CB5;
             --accent-blue-glow: rgba(42, 74, 127, 0.3);
             --accent-gold: #D4A853;
             --accent-gold-hover: #E8BF6A;
             --accent-gold-glow: rgba(212, 168, 83, 0.25);
+            /* Textos para fondos oscuros */
             --text-primary: #FFFFFF;
             --text-secondary: #A0AEC0;
             --text-muted: #64748B;
+            /* Textos para fondos claros */
+            --text-dark: #1A1A2E;
+            --text-dark-secondary: #4A4A5A;
+            /* Bordes y superficies */
             --border-subtle: rgba(42, 74, 127, 0.2);
             --border-card: rgba(42, 74, 127, 0.15);
             --glass-bg: rgba(15, 20, 35, 0.6);
             --glass-border: rgba(255, 255, 255, 0.05);
-            --bg-light: #F8FAFC;
+            --bg-light: #F5F0EB;
             --bg-light-alt: #FFFFFF;
-            --text-dark: #0A0A0F;
-            --text-dark-secondary: #475569;
-            --border-light: #E2E8F0;
+            --bg-card-light: #FFFFFF;
+            --border-light: #D4CFC8;
             --font-display: 'Bebas Neue', cursive;
             --font-body: 'DM Sans', sans-serif;
         }
@@ -42,7 +51,7 @@
         body {
             font-family: var(--font-body);
             background-color: var(--bg-primary);
-            color: var(--text-primary);
+            color: var(--text-dark);
             line-height: 1.6;
             overflow-x: hidden;
         }
@@ -54,7 +63,9 @@
         section { padding: 100px 0; position: relative; }
         .section-light { background-color: var(--bg-light); }
         .section-light-alt { background-color: var(--bg-light-alt); }
-        .section-dark { background-color: var(--bg-secondary); }
+        .section-dark { background-color: var(--bg-dark); color: var(--text-primary); }
+        .section-dark .section-title { color: var(--text-primary); }
+        .section-dark .section-subtitle { color: var(--text-secondary); }
 
         .section-label {
             font-family: var(--font-body);
@@ -92,8 +103,11 @@
             letter-spacing: 4px;
             line-height: 1;
         }
-        .brand-text .ande { color: #FFFFFF; }
+        .brand-text .ande { color: var(--text-dark); }
         .brand-text .bull { color: var(--accent-gold); }
+        /* Footer/dark context brand text */
+        .footer .brand-text .ande { color: #FFFFFF; }
+        .chat-header .brand-text .ande { color: #FFFFFF; }
 
         /* ===== Navbar ===== */
         .navbar {
@@ -103,7 +117,7 @@
             width: 100%;
             z-index: 1000;
             background: var(--bg-primary);
-            border-bottom: 1px solid var(--border-subtle);
+            border-bottom: 1px solid var(--border-light);
             padding: 0 24px;
             height: 72px;
             display: flex;
@@ -124,11 +138,11 @@
         .nav-links a {
             font-size: 14px;
             font-weight: 500;
-            color: var(--text-secondary);
+            color: var(--text-dark-secondary);
             transition: color 0.3s;
             letter-spacing: 0.5px;
         }
-        .nav-links a:hover { color: var(--text-primary); }
+        .nav-links a:hover { color: var(--text-dark); }
 
         .btn-cta {
             display: inline-flex;
@@ -136,7 +150,7 @@
             gap: 8px;
             padding: 12px 28px;
             background: var(--accent-gold);
-            color: var(--text-dark);
+            color: #1A1A2E;
             font-family: var(--font-body);
             font-size: 14px;
             font-weight: 700;
@@ -146,10 +160,11 @@
             cursor: pointer;
             transition: all 0.3s ease;
             text-transform: uppercase;
+            box-shadow: 0 2px 8px rgba(212, 168, 83, 0.3);
         }
         .btn-cta:hover {
             background: var(--accent-gold-hover);
-            box-shadow: 0 0 30px var(--accent-gold-glow);
+            box-shadow: 0 4px 16px rgba(212, 168, 83, 0.5);
             transform: translateY(-2px);
         }
 
@@ -166,7 +181,7 @@
         .hamburger span {
             width: 24px;
             height: 2px;
-            background: var(--text-primary);
+            background: var(--text-dark);
             border-radius: 2px;
             transition: all 0.3s;
         }
@@ -194,7 +209,7 @@
             font-family: var(--font-display);
             font-size: 32px;
             letter-spacing: 3px;
-            color: var(--text-secondary);
+            color: var(--text-dark-secondary);
             transition: color 0.3s;
         }
         .mobile-menu a:hover { color: var(--accent-gold); }
@@ -205,7 +220,7 @@
             display: flex;
             align-items: center;
             padding-top: 72px;
-            background: var(--bg-primary);
+            background: var(--bg-dark);
             position: relative;
             overflow: hidden;
         }
@@ -326,17 +341,18 @@
             margin-top: 48px;
         }
         .benefit-card {
-            background: #FFFFFF;
+            background: var(--bg-card-light);
             border: 1px solid var(--border-light);
             border-radius: 16px;
             padding: 32px 28px;
             transition: all 0.3s ease;
             border-left: 4px solid transparent;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
         }
         .benefit-card:hover {
             border-left-color: var(--accent-gold);
             transform: translateY(-4px);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.1);
         }
         .benefit-icon {
             width: 48px;
@@ -439,7 +455,7 @@
         }
         .check-icon svg { width: 14px; height: 14px; }
         .why-image {
-            background: linear-gradient(135deg, var(--bg-primary), var(--accent-blue));
+            background: linear-gradient(135deg, var(--bg-dark), var(--accent-blue));
             border-radius: 20px;
             height: 400px;
             display: flex;
@@ -505,13 +521,13 @@
             min-width: 140px;
             text-align: right;
             font-size: 14px;
-            color: var(--text-dark-secondary);
+            color: var(--text-secondary);
             font-weight: 500;
         }
         .tier-bar-wrap {
             flex: 1;
             height: 40px;
-            background: var(--border-light);
+            background: rgba(255,255,255,0.08);
             border-radius: 8px;
             overflow: hidden;
             position: relative;
@@ -537,7 +553,7 @@
             text-align: center;
             margin-top: 24px;
             font-size: 14px;
-            color: var(--text-dark-secondary);
+            color: var(--text-secondary);
         }
         .tier-note strong { color: var(--accent-gold); }
 
@@ -549,17 +565,18 @@
             margin-top: 48px;
         }
         .step-card {
-            background: #FFFFFF;
+            background: var(--bg-card-light);
             border: 1px solid var(--border-light);
             border-radius: 16px;
             padding: 36px 28px;
             text-align: center;
             position: relative;
             transition: all 0.3s ease;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
         }
         .step-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.1);
         }
         .step-num {
             font-family: var(--font-display);
@@ -603,19 +620,19 @@
         }
         .profile-tag {
             padding: 14px 28px;
-            background: var(--glass-bg);
-            border: 1px solid var(--border-card);
+            background: var(--bg-card-light);
+            border: 1px solid var(--border-light);
             border-radius: 50px;
             font-size: 15px;
             font-weight: 500;
-            color: var(--text-primary);
+            color: var(--text-dark);
             transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         }
         .profile-tag:hover {
             border-color: var(--accent-gold);
             color: var(--accent-gold);
-            box-shadow: 0 0 20px var(--accent-gold-glow);
+            box-shadow: 0 4px 16px rgba(212, 168, 83, 0.2);
         }
 
         /* ===== Documents Section ===== */
@@ -626,22 +643,23 @@
             margin-top: 48px;
         }
         .doc-card {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            backdrop-filter: blur(20px);
+            background: var(--bg-card-light);
+            border: 1px solid var(--border-light);
             border-radius: 16px;
             padding: 28px 24px;
             text-align: center;
             transition: all 0.3s ease;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
         }
         .doc-card:hover {
             border-color: var(--accent-blue-light);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
         }
         .doc-icon {
             width: 52px;
             height: 52px;
             margin: 0 auto 16px;
-            background: rgba(42, 74, 127, 0.15);
+            background: rgba(42, 74, 127, 0.1);
             border-radius: 14px;
             display: flex;
             align-items: center;
@@ -652,22 +670,22 @@
         .doc-card h3 {
             font-size: 16px;
             font-weight: 700;
-            color: var(--text-primary);
+            color: var(--text-dark);
             margin-bottom: 6px;
         }
         .doc-card p {
             font-size: 13px;
-            color: var(--text-secondary);
+            color: var(--text-dark-secondary);
         }
         .docs-note {
             text-align: center;
             margin-top: 32px;
             padding: 20px 28px;
             background: rgba(212, 168, 83, 0.08);
-            border: 1px solid rgba(212, 168, 83, 0.15);
+            border: 1px solid rgba(212, 168, 83, 0.2);
             border-radius: 12px;
             font-size: 14px;
-            color: var(--text-secondary);
+            color: var(--text-dark-secondary);
         }
         .docs-note strong { color: var(--accent-gold); }
 
@@ -692,7 +710,8 @@
 
         /* ===== Final CTA ===== */
         .final-cta {
-            background: var(--bg-primary);
+            background: var(--bg-dark);
+            color: var(--text-primary);
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -725,7 +744,7 @@
             gap: 10px;
             padding: 18px 48px;
             background: var(--accent-gold);
-            color: var(--text-dark);
+            color: #1A1A2E;
             font-family: var(--font-body);
             font-size: 18px;
             font-weight: 700;
@@ -744,7 +763,8 @@
 
         /* ===== Footer ===== */
         .footer {
-            background: var(--bg-primary);
+            background: var(--bg-dark);
+            color: var(--text-primary);
             border-top: 1px solid var(--border-subtle);
             padding: 60px 0 30px;
         }
@@ -825,23 +845,30 @@
             position: fixed;
             bottom: 24px;
             right: 24px;
-            width: 60px;
-            height: 60px;
+            width: 64px;
+            height: 64px;
             border-radius: 50%;
-            background: var(--accent-blue);
-            border: none;
+            background: var(--accent-gold);
+            border: 3px solid rgba(255, 255, 255, 0.9);
             cursor: pointer;
             z-index: 1001;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 20px rgba(42, 74, 127, 0.4);
+            box-shadow: 0 4px 20px rgba(212, 168, 83, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3);
             transition: all 0.3s ease;
             overflow: hidden;
+            animation: pulseGlow 2s ease-in-out infinite;
         }
         .chat-toggle:hover {
-            transform: scale(1.08);
-            box-shadow: 0 6px 30px rgba(42, 74, 127, 0.6);
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(212, 168, 83, 0.7), 0 4px 12px rgba(0, 0, 0, 0.4);
+            border-color: #FFFFFF;
+        }
+        .chat-toggle.active { animation: none; }
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 4px 20px rgba(212, 168, 83, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3); }
+            50% { box-shadow: 0 4px 30px rgba(212, 168, 83, 0.8), 0 2px 8px rgba(0, 0, 0, 0.3); }
         }
         .chat-toggle img { width: 36px; height: 36px; object-fit: contain; }
         .chat-toggle .close-icon { display: none; }
@@ -854,7 +881,7 @@
             right: 24px;
             width: 380px;
             height: 520px;
-            background: var(--bg-primary);
+            background: var(--bg-dark);
             border: 1px solid var(--border-subtle);
             border-radius: 20px;
             z-index: 1001;
@@ -872,7 +899,7 @@
 
         .chat-header {
             padding: 16px 20px;
-            background: var(--bg-secondary);
+            background: var(--bg-dark-secondary);
             border-bottom: 1px solid var(--border-subtle);
             display: flex;
             align-items: center;
@@ -958,7 +985,7 @@
         .chat-input-wrap input {
             flex: 1;
             padding: 12px 16px;
-            background: var(--bg-secondary);
+            background: var(--bg-dark-secondary);
             border: 1px solid var(--border-subtle);
             border-radius: 12px;
             color: var(--text-primary);
@@ -1355,7 +1382,7 @@
 </section>
 
 <!-- ===== COMISIONES ===== -->
-<section class="section-light" id="comisiones">
+<section class="section-dark" id="comisiones">
     <div class="container">
         <div class="section-label reveal" style="text-align: center;">ESQUEMA PROGRESIVO</div>
         <h2 class="section-title reveal" style="text-align: center;">COMISIONES SIN LÍMITE</h2>
@@ -1426,7 +1453,7 @@
 </section>
 
 <!-- ===== PERFIL ===== -->
-<section class="section-dark" id="perfil">
+<section class="section-light" id="perfil">
     <div class="container" style="text-align: center;">
         <div class="section-label reveal">PERFIL IDEAL</div>
         <h2 class="section-title reveal">¿ERES TÚ?</h2>
@@ -1443,7 +1470,7 @@
 </section>
 
 <!-- ===== DOCUMENTOS ===== -->
-<section class="section-dark" id="documentos" style="padding-top: 0;">
+<section class="section-light-alt" id="documentos">
     <div class="container" style="text-align: center;">
         <div class="section-label reveal">PARA TU ENTREVISTA</div>
         <h2 class="section-title reveal">DOCUMENTOS NECESARIOS</h2>
@@ -1718,14 +1745,6 @@ REGLAS DE RESPUESTA:
 
 let conversationHistory = [];
 
-chatToggle.addEventListener('click', () => {
-    chatToggle.classList.toggle('active');
-    chatPanel.classList.toggle('active');
-    if (chatPanel.classList.contains('active')) {
-        chatInput.focus();
-    }
-});
-
 function addMessage(text, type) {
     const div = document.createElement('div');
     div.className = `msg ${type}`;
@@ -1809,6 +1828,100 @@ async function sendMessage() {
 chatSend.addEventListener('click', sendMessage);
 chatInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') sendMessage();
+});
+
+// ===== Draggable Chatbot Button =====
+let isDragging = false;
+let dragStartX, dragStartY, btnStartLeft, btnStartBottom;
+
+chatToggle.addEventListener('mousedown', (e) => {
+    isDragging = false;
+    dragStartX = e.clientX;
+    dragStartY = e.clientY;
+    btnStartLeft = chatToggle.offsetLeft;
+    btnStartBottom = window.innerHeight - chatToggle.offsetTop - chatToggle.offsetHeight;
+
+    const onMouseMove = (e) => {
+        const dx = e.clientX - dragStartX;
+        const dy = e.clientY - dragStartY;
+        if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
+            isDragging = true;
+            chatToggle.style.right = 'auto';
+            chatToggle.style.left = (btnStartLeft + dx) + 'px';
+            chatToggle.style.bottom = (btnStartBottom - dy) + 'px';
+        }
+    };
+
+    const onMouseUp = () => {
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+        if (isDragging) {
+            const rect = chatToggle.getBoundingClientRect();
+            const midX = window.innerWidth / 2;
+            if (rect.left + rect.width / 2 < midX) {
+                chatToggle.style.left = '24px';
+                chatToggle.style.right = 'auto';
+            } else {
+                chatToggle.style.left = 'auto';
+                chatToggle.style.right = '24px';
+            }
+        }
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+});
+
+// Prevent click when dragging
+const origChatToggleClick = chatToggle.onclick;
+chatToggle.addEventListener('click', (e) => {
+    if (isDragging) {
+        e.preventDefault();
+        e.stopPropagation();
+        isDragging = false;
+        return;
+    }
+    chatToggle.classList.toggle('active');
+    chatPanel.classList.toggle('active');
+    if (chatPanel.classList.contains('active')) {
+        chatInput.focus();
+    }
+}, true);
+
+// Touch support for mobile
+chatToggle.addEventListener('touchstart', (e) => {
+    isDragging = false;
+    const touch = e.touches[0];
+    dragStartX = touch.clientX;
+    dragStartY = touch.clientY;
+    btnStartLeft = chatToggle.offsetLeft;
+    btnStartBottom = window.innerHeight - chatToggle.offsetTop - chatToggle.offsetHeight;
+}, { passive: true });
+
+chatToggle.addEventListener('touchmove', (e) => {
+    const touch = e.touches[0];
+    const dx = touch.clientX - dragStartX;
+    const dy = touch.clientY - dragStartY;
+    if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
+        isDragging = true;
+        chatToggle.style.right = 'auto';
+        chatToggle.style.left = (btnStartLeft + dx) + 'px';
+        chatToggle.style.bottom = (btnStartBottom - dy) + 'px';
+    }
+}, { passive: true });
+
+chatToggle.addEventListener('touchend', () => {
+    if (isDragging) {
+        const rect = chatToggle.getBoundingClientRect();
+        const midX = window.innerWidth / 2;
+        if (rect.left + rect.width / 2 < midX) {
+            chatToggle.style.left = '24px';
+            chatToggle.style.right = 'auto';
+        } else {
+            chatToggle.style.left = 'auto';
+            chatToggle.style.right = '24px';
+        }
+    }
 });
 </script>
 
