@@ -792,244 +792,118 @@
         }
 
         /* ===== Chatbot ===== */
-        .chat-toggle {
+        .cb-btn {
             position: fixed;
             bottom: 24px;
             right: 24px;
-            width: 68px;
-            height: 68px;
+            width: 64px;
+            height: 64px;
             border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, #E8BF6A 0%, #D4A853 40%, #B8912F 100%);
+            border: 2px solid rgba(255,255,255,0.4);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5), 0 0 20px rgba(212,168,83,0.4), inset 0 2px 4px rgba(255,255,255,0.3), inset 0 -3px 6px rgba(0,0,0,0.2);
             cursor: grab;
-            z-index: 9999;
+            z-index: 10000;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: radial-gradient(circle at 35% 35%, #E8BF6A 0%, #D4A853 40%, #B8912F 100%);
-            border: 2px solid rgba(255, 255, 255, 0.4);
-            box-shadow:
-                0 8px 24px rgba(0, 0, 0, 0.5),
-                0 4px 12px rgba(0, 0, 0, 0.3),
-                0 0 20px rgba(212, 168, 83, 0.4),
-                inset 0 2px 4px rgba(255, 255, 255, 0.3),
-                inset 0 -3px 6px rgba(0, 0, 0, 0.2);
-            transform: perspective(200px) rotateX(5deg);
-            transition: box-shadow 0.3s ease, transform 0.3s ease;
-            animation: chatbotPulse 3s ease-in-out infinite;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: cb-pulse 3s ease-in-out infinite;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: none;
         }
-        .chat-toggle:hover {
-            transform: perspective(200px) rotateX(0deg) scale(1.08);
-            box-shadow:
-                0 12px 32px rgba(0, 0, 0, 0.6),
-                0 6px 16px rgba(0, 0, 0, 0.4),
-                0 0 30px rgba(212, 168, 83, 0.6),
-                inset 0 2px 4px rgba(255, 255, 255, 0.4),
-                inset 0 -3px 6px rgba(0, 0, 0, 0.15);
+        .cb-btn img { width: 36px; height: 36px; object-fit: contain; pointer-events: none; user-select: none; -webkit-user-drag: none; }
+        .cb-btn:hover { transform: scale(1.08); box-shadow: 0 12px 32px rgba(0,0,0,0.6), 0 0 30px rgba(212,168,83,0.6), inset 0 2px 4px rgba(255,255,255,0.4), inset 0 -3px 6px rgba(0,0,0,0.15); }
+        .cb-btn.cb-hidden { display: none !important; }
+        @keyframes cb-pulse {
+            0%,100% { box-shadow: 0 8px 24px rgba(0,0,0,0.5), 0 0 20px rgba(212,168,83,0.4), inset 0 2px 4px rgba(255,255,255,0.3), inset 0 -3px 6px rgba(0,0,0,0.2); }
+            50% { box-shadow: 0 8px 24px rgba(0,0,0,0.5), 0 0 35px rgba(212,168,83,0.7), inset 0 2px 4px rgba(255,255,255,0.3), inset 0 -3px 6px rgba(0,0,0,0.2); }
         }
-        .chat-toggle:active {
-            transform: perspective(200px) rotateX(2deg) scale(0.95);
-            box-shadow:
-                0 4px 12px rgba(0, 0, 0, 0.5),
-                0 2px 6px rgba(0, 0, 0, 0.3),
-                0 0 15px rgba(212, 168, 83, 0.3),
-                inset 0 1px 2px rgba(255, 255, 255, 0.2),
-                inset 0 -2px 4px rgba(0, 0, 0, 0.3);
-        }
-        .chat-toggle.active { animation: none; }
-        @keyframes chatbotPulse {
-            0%, 100% {
-                box-shadow:
-                    0 8px 24px rgba(0, 0, 0, 0.5),
-                    0 4px 12px rgba(0, 0, 0, 0.3),
-                    0 0 20px rgba(212, 168, 83, 0.4),
-                    inset 0 2px 4px rgba(255, 255, 255, 0.3),
-                    inset 0 -3px 6px rgba(0, 0, 0, 0.2);
-            }
-            50% {
-                box-shadow:
-                    0 8px 24px rgba(0, 0, 0, 0.5),
-                    0 4px 12px rgba(0, 0, 0, 0.3),
-                    0 0 35px rgba(212, 168, 83, 0.7),
-                    inset 0 2px 4px rgba(255, 255, 255, 0.3),
-                    inset 0 -3px 6px rgba(0, 0, 0, 0.2);
-            }
-        }
-        .chat-toggle img {
-            width: 38px;
-            height: 38px;
-            object-fit: contain;
-            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
-            pointer-events: none;
-        }
-        .chat-toggle .close-icon { display: none; pointer-events: none; }
-        .chat-toggle.active img { display: none; }
-        .chat-toggle.active .close-icon { display: block; color: white; }
-
-        .chat-panel {
+        .cb-panel {
             position: fixed;
             bottom: 100px;
             right: 24px;
             width: 380px;
             height: 520px;
-            max-height: 70vh;
-            background: #0A0A0F;
-            border: 1px solid rgba(42, 74, 127, 0.3);
             border-radius: 20px;
-            z-index: 10000;
-            display: flex;
-            flex-direction: column;
             overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(20px) scale(0.95);
-            transition: all 0.3s ease;
-        }
-        .chat-panel.active {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0) scale(1);
-        }
-
-        .chat-header {
-            padding: 16px 20px;
-            background: #0F1118;
-            border-bottom: 1px solid rgba(42, 74, 127, 0.2);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-shrink: 0;
-            min-height: 60px;
-        }
-        .chat-header img { height: 36px; width: 36px; object-fit: contain; flex-shrink: 0; }
-        .chat-header-info {
-            flex: 1;
-            min-width: 0;
-        }
-        .chat-header-info h3 {
-            font-family: var(--font-display);
-            font-size: 18px;
-            letter-spacing: 2px;
-            color: var(--text-primary);
-            line-height: 1.2;
-        }
-        .chat-header-info span {
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-        .chat-close {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            border: none;
-            background: rgba(255, 255, 255, 0.1);
-            color: #FFFFFF;
-            font-size: 18px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            transition: background 0.2s;
-        }
-        .chat-close:hover { background: rgba(255, 255, 255, 0.2); }
-
-        .chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            background: #0D0D14;
-            min-height: 0;
-            -webkit-overflow-scrolling: touch;
-        }
-        .chat-messages::-webkit-scrollbar { width: 4px; }
-        .chat-messages::-webkit-scrollbar-track { background: transparent; }
-        .chat-messages::-webkit-scrollbar-thumb { background: rgba(42, 74, 127, 0.3); border-radius: 4px; }
-
-        .msg {
-            max-width: 85%;
-            padding: 12px 16px;
-            border-radius: 16px;
-            font-size: 14px;
-            line-height: 1.5;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-        }
-        .msg.bot {
-            align-self: flex-start;
-            background: rgba(42, 74, 127, 0.2);
-            border: 1px solid rgba(42, 74, 127, 0.3);
-            color: #E8E8EC;
-            border-bottom-left-radius: 4px;
-        }
-        .msg.user {
-            align-self: flex-end;
-            background: linear-gradient(135deg, #D4A853, #B8912F);
-            color: #1A1A2E;
-            border-bottom-right-radius: 4px;
-        }
-        .typing-indicator {
             display: none;
-            align-self: flex-start;
-            padding: 12px 16px;
-            gap: 4px;
+            flex-direction: column;
+            z-index: 10001;
+            background: #0A0A12;
+            border: 1px solid rgba(42,74,127,0.3);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 40px rgba(0,0,0,0.3);
         }
-        .typing-indicator.active { display: flex; }
-        .typing-dot {
-            width: 8px;
-            height: 8px;
-            background: #A0AEC0;
-            border-radius: 50%;
-            animation: typingBounce 1.4s ease-in-out infinite;
+        .cb-panel.cb-open { display: flex; animation: cb-slide-up 0.3s ease forwards; }
+        @keyframes cb-slide-up {
+            from { opacity: 0; transform: translateY(20px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
-        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes typingBounce {
-            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
-            30% { transform: translateY(-8px); opacity: 1; }
-        }
-
-        .chat-input-wrap {
-            padding: 12px 16px;
-            background: #0F1118;
-            border-top: 1px solid rgba(42, 74, 127, 0.2);
+        .cb-header {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            padding: 14px 16px;
+            background: #0F1320;
+            border-bottom: 1px solid rgba(42,74,127,0.25);
             flex-shrink: 0;
         }
-        .chat-input-wrap input {
-            flex: 1;
-            padding: 10px 16px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(42, 74, 127, 0.3);
-            border-radius: 12px;
-            color: #FFFFFF;
-            font-family: var(--font-body);
-            font-size: 14px;
-            outline: none;
-            min-height: 40px;
+        .cb-header-logo { width: 36px; height: 36px; flex-shrink: 0; }
+        .cb-header-logo img { width: 100%; height: 100%; object-fit: contain; }
+        .cb-header-info { flex: 1; min-width: 0; }
+        .cb-header-title { font-family: var(--font-display); font-size: 18px; letter-spacing: 3px; line-height: 1.1; }
+        .cb-header-sub { font-family: var(--font-body); font-size: 11px; color: #8896AB; margin-top: 2px; }
+        .cb-close {
+            width: 34px; height: 34px; border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.06);
+            color: #ccc; font-size: 22px; line-height: 1;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; transition: background 0.2s, color 0.2s;
+            -webkit-tap-highlight-color: transparent;
         }
-        .chat-input-wrap input::placeholder { color: #64748B; }
-        .chat-input-wrap input:focus { border-color: var(--accent-gold); }
-        .chat-send {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #D4A853, #B8912F);
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #1A1A2E;
-            transition: transform 0.2s, box-shadow 0.2s;
-            flex-shrink: 0;
+        .cb-close:hover { background: rgba(255,255,255,0.15); color: #fff; }
+        .cb-messages {
+            flex: 1; overflow-y: auto; padding: 16px;
+            display: flex; flex-direction: column; gap: 10px;
+            background: #0D0D16; min-height: 0;
+            -webkit-overflow-scrolling: touch; overscroll-behavior: contain;
         }
-        .chat-send:hover { transform: scale(1.05); box-shadow: 0 2px 12px rgba(212, 168, 83, 0.4); }
-        .chat-send svg { width: 18px; height: 18px; }
+        .cb-msg {
+            max-width: 85%; padding: 11px 15px; border-radius: 16px;
+            font-family: var(--font-body); font-size: 14px; line-height: 1.5; word-break: break-word;
+        }
+        .cb-msg-bot { align-self: flex-start; background: rgba(30,40,70,0.6); border: 1px solid rgba(42,74,127,0.25); color: #dde; border-bottom-left-radius: 4px; }
+        .cb-msg-user { align-self: flex-end; background: linear-gradient(135deg, #D4A853, #B8912F); color: #1A1A2E; font-weight: 500; border-bottom-right-radius: 4px; }
+        .cb-typing { display: flex; gap: 5px; padding: 11px 15px; align-self: flex-start; }
+        .cb-typing span { width: 7px; height: 7px; border-radius: 50%; background: #8896AB; animation: cb-dot 1.4s ease-in-out infinite; }
+        .cb-typing span:nth-child(2) { animation-delay: 0.2s; }
+        .cb-typing span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes cb-dot { 0%,60%,100% { transform: translateY(0); opacity: 0.4; } 30% { transform: translateY(-6px); opacity: 1; } }
+        .cb-input-area {
+            display: flex; align-items: center; gap: 8px; padding: 12px 14px;
+            background: #0F1320; border-top: 1px solid rgba(42,74,127,0.25); flex-shrink: 0;
+        }
+        .cb-input {
+            flex: 1; background: rgba(255,255,255,0.07); border: 1px solid rgba(42,74,127,0.3);
+            border-radius: 12px; padding: 10px 14px; color: #fff;
+            font-family: var(--font-body); font-size: 16px;
+            outline: none; -webkit-appearance: none; appearance: none;
+        }
+        .cb-input:focus { border-color: #D4A853; }
+        .cb-input::placeholder { color: #5a6478; }
+        .cb-send {
+            width: 42px; height: 42px; border-radius: 50%; border: none;
+            background: linear-gradient(135deg, #D4A853, #B8912F); color: #1A1A2E;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; transition: transform 0.15s; -webkit-tap-highlight-color: transparent;
+        }
+        .cb-send:active { transform: scale(0.92); }
+        .cb-confirm {
+            align-self: flex-start; background: rgba(34,197,94,0.15); border: 1px solid rgba(34,197,94,0.3);
+            color: #4ade80; padding: 10px 14px; border-radius: 12px;
+            font-family: var(--font-body); font-size: 13px; line-height: 1.4;
+        }
 
         /* ===== Calculator ===== */
         .calc-card {
@@ -1195,37 +1069,18 @@
             .process-steps { grid-template-columns: 1fr; }
             .docs-grid { grid-template-columns: 1fr; }
             .footer-grid { grid-template-columns: 1fr; gap: 32px; }
-            .chat-panel {
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
+            .cb-panel {
+                position: fixed !important;
+                inset: 0 !important;
                 width: 100% !important;
                 height: 100% !important;
-                max-height: 100% !important;
-                border-radius: 0;
-                border: none;
+                max-height: none !important;
+                border-radius: 0 !important;
+                border: none !important;
             }
-            .chat-header {
-                padding: 12px 16px;
-                padding-top: max(12px, env(safe-area-inset-top));
-            }
-            .chat-messages {
-                padding: 12px;
-            }
-            .chat-input-wrap {
-                padding: 10px 12px;
-                padding-bottom: max(10px, env(safe-area-inset-bottom));
-            }
-            .chat-input-wrap input {
-                font-size: 16px; /* Prevents iOS zoom */
-            }
-            .msg {
-                max-width: 90%;
-                font-size: 15px;
-            }
-            .chat-toggle { bottom: 16px; right: 16px; }
+            .cb-header { padding-top: max(14px, env(safe-area-inset-top, 14px)); }
+            .cb-input-area { padding-bottom: max(12px, env(safe-area-inset-bottom, 12px)); }
+            .cb-msg { max-width: 88%; font-size: 15px; }
         }
 
         @media (max-width: 480px) {
@@ -1242,9 +1097,9 @@
             .container { padding: 0 16px; }
             .hero h1 { font-size: 34px; }
             .section-title { font-size: 30px; }
-            .chat-header { padding: 10px 12px; gap: 8px; }
-            .chat-header img { width: 28px; height: 28px; }
-            .chat-header-info h3 { font-size: 16px; letter-spacing: 2px; }
+            .cb-header { padding: 10px 12px; gap: 8px; }
+            .cb-header-logo { width: 28px; height: 28px; }
+            .cb-header-title { font-size: 16px; letter-spacing: 2px; }
         }
     </style>
 </head>
@@ -1771,34 +1626,24 @@
 </footer>
 
 <!-- ===== CHATBOT ===== -->
-<button class="chat-toggle" id="chatToggle" aria-label="Abrir chat">
-    <img src="logo.png" alt="Chat">
-    <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-</button>
+<div id="chatbot-btn" class="cb-btn" aria-label="Abrir chat">
+    <img src="logo.png" alt="ANDEBULL" draggable="false">
+</div>
 
-<div class="chat-panel" id="chatPanel">
-    <div class="chat-header">
-        <img src="logo.png" alt="ANDEBULL">
-        <div class="chat-header-info">
-            <h3><span style="color:#fff;">ANDE</span><span style="color:var(--accent-gold);">BULL</span></h3>
-            <span>Asistente Virtual</span>
+<div id="chatbot-panel" class="cb-panel">
+    <div class="cb-header">
+        <div class="cb-header-logo"><img src="logo.png" alt="ANDEBULL" draggable="false"></div>
+        <div class="cb-header-info">
+            <div class="cb-header-title"><span style="color:#fff">ANDE</span><span style="color:#D4A853">BULL</span></div>
+            <div class="cb-header-sub">Asistente Virtual</div>
         </div>
-        <button class="chat-close" id="chatClose" aria-label="Cerrar chat">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
+        <button id="chatbot-close" class="cb-close" aria-label="Cerrar chat">&times;</button>
     </div>
-    <div class="chat-messages" id="chatMessages">
-        <div class="msg bot">¿Quieres ganar dinero de verdad? 💰 En ANDEBULL no buscamos empleados, buscamos personas con mentalidad de ventas. Comisiones sin tope, formación pagada y tardes libres. ¿Te interesa saber cómo funciona?</div>
-        <div class="typing-indicator" id="typingIndicator">
-            <span class="typing-dot"></span>
-            <span class="typing-dot"></span>
-            <span class="typing-dot"></span>
-        </div>
-    </div>
-    <div class="chat-input-wrap">
-        <input type="text" id="chatInput" placeholder="Escribe tu pregunta..." autocomplete="off">
-        <button class="chat-send" id="chatSend" aria-label="Enviar">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    <div id="chatbot-messages" class="cb-messages"></div>
+    <div class="cb-input-area">
+        <input type="text" id="chatbot-input" class="cb-input" placeholder="Escribe tu mensaje..." autocomplete="off" enterkeyhint="send">
+        <button id="chatbot-send" class="cb-send" aria-label="Enviar">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
         </button>
     </div>
 </div>
@@ -1834,52 +1679,18 @@ const revealObserver = new IntersectionObserver((entries) => {
 }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 revealElements.forEach(el => revealObserver.observe(el));
 
-// ===== Chatbot =====
-const chatToggle = document.getElementById('chatToggle');
-const chatPanel = document.getElementById('chatPanel');
-const chatMessages = document.getElementById('chatMessages');
-const chatInput = document.getElementById('chatInput');
-const chatSend = document.getElementById('chatSend');
-const typingIndicator = document.getElementById('typingIndicator');
-const chatClose = document.getElementById('chatClose');
+// ===== Chatbot (IIFE) =====
+(function() {
+const btn = document.getElementById('chatbot-btn');
+const panel = document.getElementById('chatbot-panel');
+const closeBtn = document.getElementById('chatbot-close');
+const messagesEl = document.getElementById('chatbot-messages');
+const input = document.getElementById('chatbot-input');
+const sendBtn = document.getElementById('chatbot-send');
+if (!btn || !panel) return;
 
-// Close button in header
-chatClose.addEventListener('click', () => {
-    chatToggle.classList.remove('active');
-    chatPanel.classList.remove('active');
-    document.body.style.overflow = '';
-});
-
-// Lock body scroll when chat is fullscreen on mobile
-function updateBodyScroll() {
-    if (chatPanel.classList.contains('active') && window.innerWidth <= 768) {
-        document.body.style.overflow = 'hidden';
-    } else {
-        document.body.style.overflow = '';
-    }
-}
-
-// Mobile keyboard handling
-if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-    chatInput.addEventListener('focus', () => {
-        setTimeout(() => {
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }, 300);
-    });
-    if (window.visualViewport) {
-        window.visualViewport.addEventListener('resize', () => {
-            if (chatPanel.classList.contains('active')) {
-                chatPanel.style.height = window.visualViewport.height + 'px';
-            }
-        });
-        window.visualViewport.addEventListener('scroll', () => {
-            if (chatPanel.classList.contains('active')) {
-                chatPanel.style.top = window.visualViewport.offsetTop + 'px';
-            }
-        });
-    }
-}
-
+let isOpen = false;
+let conversationHistory = [];
 const SHEET_URL = 'INSERTAR_GOOGLE_APPS_SCRIPT_URL';
 
 const SYSTEM_PROMPT = `Eres el reclutador estrella de ANDEBULL, empresa de asesoría energética para el mercado español ubicada en Arequipa, Perú (Calle Francisco Mostajo Nº 307, 3er piso, Yanahuara). WhatsApp: 944621818. Email: andebullaqp@gmail.com. Instagram: @andebull_peru.
@@ -1955,180 +1766,143 @@ REGLAS ABSOLUTAS:
 - Si piden horario fuera de rango para entrevista, sugiere uno válido
 - El tag [AGENDAR] será procesado automáticamente, NO lo muestres al usuario`;
 
-let conversationHistory = [];
+const INITIAL_MSG = '¿Quieres ganar dinero de verdad? 💰 En ANDEBULL no buscamos empleados, buscamos personas con mentalidad de ventas. Comisiones sin tope, formación pagada y tardes libres. ¿Te interesa saber cómo funciona?';
 
-function addMessage(text, type) {
-    const div = document.createElement('div');
-    div.className = `msg ${type}`;
+// --- Open / Close ---
+function openChat() {
+    isOpen = true;
+    panel.classList.add('cb-open');
+    btn.classList.add('cb-hidden');
+    document.body.style.overflow = 'hidden';
+    if (messagesEl.children.length === 0) addMsg(INITIAL_MSG, 'bot');
+    setTimeout(function(){ input.focus(); scrollBottom(); }, 350);
+}
+function closeChat() {
+    isOpen = false;
+    panel.classList.remove('cb-open');
+    btn.classList.remove('cb-hidden');
+    document.body.style.overflow = '';
+}
+closeBtn.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); closeChat(); });
+
+// --- Drag ---
+var ds = { active:false, moved:false, sx:0, sy:0, ix:0, iy:0 };
+function dStart(e){
+    if(isOpen) return;
+    var p = e.touches ? e.touches[0] : e;
+    var r = btn.getBoundingClientRect();
+    ds = { active:true, moved:false, sx:p.clientX, sy:p.clientY, ix:r.left, iy:r.top };
+    btn.style.transition = 'none';
+    btn.style.cursor = 'grabbing';
+    e.preventDefault();
+}
+function dMove(e){
+    if(!ds.active) return;
+    var p = e.touches ? e.touches[0] : e;
+    var dx = p.clientX - ds.sx, dy = p.clientY - ds.sy;
+    if(!ds.moved && (Math.abs(dx)>6||Math.abs(dy)>6)) ds.moved = true;
+    if(ds.moved){
+        e.preventDefault();
+        var x = Math.max(8, Math.min(window.innerWidth-72, ds.ix+dx));
+        var y = Math.max(8, Math.min(window.innerHeight-72, ds.iy+dy));
+        btn.style.left = x+'px'; btn.style.top = y+'px';
+        btn.style.right = 'auto'; btn.style.bottom = 'auto';
+    }
+}
+function dEnd(){
+    if(!ds.active) return;
+    ds.active = false;
+    btn.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
+    btn.style.cursor = 'grab';
+    if(!ds.moved) openChat();
+    ds.moved = false;
+}
+btn.addEventListener('mousedown', dStart);
+btn.addEventListener('touchstart', dStart, {passive:false});
+document.addEventListener('mousemove', dMove);
+document.addEventListener('touchmove', dMove, {passive:false});
+document.addEventListener('mouseup', dEnd);
+document.addEventListener('touchend', dEnd);
+btn.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); });
+
+// --- Messages ---
+function addMsg(text, type){
+    var div = document.createElement('div');
+    div.className = 'cb-msg ' + (type==='bot' ? 'cb-msg-bot' : 'cb-msg-user');
     div.textContent = text;
-    chatMessages.insertBefore(div, typingIndicator);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
+    messagesEl.appendChild(div);
+    scrollBottom();
 }
-
-function showTyping() {
-    typingIndicator.classList.add('active');
-    chatMessages.scrollTop = chatMessages.scrollHeight;
+function addConfirm(text){
+    var div = document.createElement('div');
+    div.className = 'cb-confirm';
+    div.textContent = '✓ ' + text;
+    messagesEl.appendChild(div);
+    scrollBottom();
 }
-
-function hideTyping() {
-    typingIndicator.classList.remove('active');
+function showTyping(){
+    var div = document.createElement('div');
+    div.className = 'cb-typing'; div.id = 'cb-typing-ind';
+    div.innerHTML = '<span></span><span></span><span></span>';
+    messagesEl.appendChild(div);
+    scrollBottom();
 }
+function hideTyping(){ var el = document.getElementById('cb-typing-ind'); if(el) el.remove(); }
+function scrollBottom(){ requestAnimationFrame(function(){ messagesEl.scrollTop = messagesEl.scrollHeight; }); }
 
-function processScheduling(text) {
-    const match = text.match(/\[AGENDAR\](.*?)\[\/AGENDAR\]/);
-    if (match) {
-        const parts = match[1].split('|');
-        if (parts.length >= 4) {
-            const data = {
-                nombre: parts[0].trim(),
-                edad: parts[1].trim(),
-                telefono: parts[2].trim(),
-                fecha_hora: parts[3].trim(),
-                registrado: new Date().toISOString()
-            };
-            if (SHEET_URL !== 'INSERTAR_GOOGLE_APPS_SCRIPT_URL') {
-                fetch(SHEET_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                }).catch(() => {});
-            }
-            const cleanText = text.replace(/\[AGENDAR\].*?\[\/AGENDAR\]/g, '').trim();
-            return cleanText || '✓ Tu entrevista ha sido registrada. Te contactaremos para confirmar.';
-        }
-    }
-    return text;
-}
-
-async function sendMessage() {
-    const text = chatInput.value.trim();
-    if (!text) return;
-
-    addMessage(text, 'user');
-    chatInput.value = '';
-    conversationHistory.push({ role: 'user', content: text });
-
+// --- Send ---
+async function sendMessage(){
+    var text = input.value.trim();
+    if(!text) return;
+    addMsg(text, 'user');
+    input.value = '';
+    input.focus();
+    conversationHistory.push({role:'user', content:text});
     showTyping();
-
     try {
-        const response = await fetch('/.netlify/functions/chat', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                system: SYSTEM_PROMPT,
-                messages: conversationHistory
-            })
+        var response = await fetch('/.netlify/functions/chat', {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({ messages:conversationHistory, system:SYSTEM_PROMPT })
         });
-
-        const data = await response.json();
+        var data = await response.json();
         hideTyping();
-
-        if (data.content && data.content[0]) {
-            let reply = data.content[0].text;
-            reply = processScheduling(reply);
-            conversationHistory.push({ role: 'assistant', content: reply });
-            addMessage(reply, 'bot');
-        } else if (data.error) {
-            addMessage('Lo siento, hubo un error. Por favor intenta de nuevo o escríbenos al WhatsApp 944621818.', 'bot');
+        var botText = '';
+        if(data.content && data.content.length>0){
+            botText = data.content.map(function(c){ return c.text||''; }).join('');
+        } else if(data.error){
+            botText = 'Disculpa, hubo un error. Puedes contactarnos al WhatsApp 944621818.';
         }
-    } catch (err) {
+        var agendarMatch = botText.match(/\[AGENDAR\](.*?)\[\/AGENDAR\]/);
+        if(agendarMatch){
+            var parts = agendarMatch[1].split('|');
+            botText = botText.replace(/\[AGENDAR\].*?\[\/AGENDAR\]/, '').trim();
+            if(SHEET_URL && SHEET_URL !== 'INSERTAR_GOOGLE_APPS_SCRIPT_URL'){
+                try { await fetch(SHEET_URL, { method:'POST', mode:'no-cors', headers:{'Content-Type':'application/json'}, body:JSON.stringify({nombre:parts[0]||'',edad:parts[1]||'',telefono:parts[2]||'',fecha_hora:parts[3]||''}) }); } catch(err){}
+            }
+            if(botText) addMsg(botText, 'bot');
+            addConfirm('Tu entrevista ha sido registrada. Te contactaremos para confirmar.');
+        } else {
+            if(botText) addMsg(botText, 'bot');
+        }
+        conversationHistory.push({role:'assistant', content:botText});
+    } catch(error){
         hideTyping();
-        addMessage('No pude conectarme. Escríbenos directamente al WhatsApp 944621818 para ayudarte.', 'bot');
+        addMsg('Error de conexión. Intenta de nuevo o escríbenos al WhatsApp 944621818.', 'bot');
     }
 }
+sendBtn.addEventListener('click', sendMessage);
+input.addEventListener('keydown', function(e){ if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); sendMessage(); } });
 
-chatSend.addEventListener('click', sendMessage);
-chatInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') sendMessage();
-});
-
-// ===== Draggable Chatbot Button (IIFE) =====
-(function() {
-    const chatBtn = chatToggle;
-    if (!chatBtn) return;
-
-    let isDragging = false;
-    let hasDragged = false;
-    let startX, startY, initialX, initialY;
-    const dragThreshold = 8;
-
-    function getPos(e) {
-        if (e.touches && e.touches.length > 0) return e.touches[0];
-        if (e.changedTouches && e.changedTouches.length > 0) return e.changedTouches[0];
-        return e;
-    }
-
-    function onStart(e) {
-        const pos = getPos(e);
-        startX = pos.clientX;
-        startY = pos.clientY;
-        const rect = chatBtn.getBoundingClientRect();
-        initialX = rect.left;
-        initialY = rect.top;
-        isDragging = true;
-        hasDragged = false;
-        chatBtn.style.transition = 'none';
-        chatBtn.style.cursor = 'grabbing';
-        e.preventDefault();
-    }
-
-    function onMove(e) {
-        if (!isDragging) return;
-        const pos = getPos(e);
-        const dx = pos.clientX - startX;
-        const dy = pos.clientY - startY;
-
-        if (!hasDragged && (Math.abs(dx) > dragThreshold || Math.abs(dy) > dragThreshold)) {
-            hasDragged = true;
-        }
-
-        if (hasDragged) {
-            e.preventDefault();
-            const margin = 8;
-            let newX = Math.max(margin, Math.min(window.innerWidth - chatBtn.offsetWidth - margin, initialX + dx));
-            let newY = Math.max(margin, Math.min(window.innerHeight - chatBtn.offsetHeight - margin, initialY + dy));
-            chatBtn.style.position = 'fixed';
-            chatBtn.style.left = newX + 'px';
-            chatBtn.style.top = newY + 'px';
-            chatBtn.style.right = 'auto';
-            chatBtn.style.bottom = 'auto';
-        }
-    }
-
-    function toggleChatbot() {
-        chatBtn.classList.toggle('active');
-        chatPanel.classList.toggle('active');
-        if (chatPanel.classList.contains('active')) {
-            chatInput.focus();
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-        updateBodyScroll();
-    }
-
-    function onEnd() {
-        if (!isDragging) return;
-        isDragging = false;
-        chatBtn.style.cursor = 'grab';
-        chatBtn.style.transition = 'box-shadow 0.3s ease, transform 0.3s ease';
-
-        if (!hasDragged) {
-            toggleChatbot();
-        }
-        hasDragged = false;
-    }
-
-    chatBtn.addEventListener('mousedown', onStart);
-    document.addEventListener('mousemove', onMove);
-    document.addEventListener('mouseup', onEnd);
-    chatBtn.addEventListener('touchstart', onStart, { passive: false });
-    document.addEventListener('touchmove', onMove, { passive: false });
-    document.addEventListener('touchend', onEnd);
-
-    // Block any other click handlers — toggle is handled in onEnd
-    chatBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
+// --- Mobile keyboard ---
+if(window.visualViewport){
+    window.visualViewport.addEventListener('resize', function(){
+        if(isOpen){ panel.style.height = window.visualViewport.height+'px'; scrollBottom(); }
     });
+    window.visualViewport.addEventListener('scroll', function(){
+        if(isOpen){ panel.style.top = window.visualViewport.offsetTop+'px'; }
+    });
+}
 })();
 
 // ===== Earnings Calculator =====
