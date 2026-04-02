@@ -907,6 +907,177 @@
             font-family: var(--font-body); font-size: 13px; line-height: 1.4;
         }
 
+        /* ===== Team Photos Grid ===== */
+        .team-photos-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto auto;
+            gap: 12px;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        .team-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+            aspect-ratio: 4/3;
+        }
+        .team-photo-main {
+            grid-row: 1 / 3;
+            aspect-ratio: 3/4;
+        }
+
+        /* ===== Cultura Grid ===== */
+        .cultura-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-top: 40px;
+        }
+        .cultura-photo {
+            width: 100%;
+            aspect-ratio: 3/4;
+            object-fit: cover;
+            border-radius: 16px;
+            border: 1px solid rgba(42,74,127,0.2);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        .cultura-photo:hover {
+            transform: scale(1.03);
+            border-color: var(--accent-gold);
+        }
+
+        /* ===== Mission Vision ===== */
+        .mission-vision-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            margin-top: 40px;
+        }
+        .mv-card {
+            background: rgba(15,20,35,0.6);
+            border: 1px solid rgba(42,74,127,0.2);
+            border-radius: 16px;
+            padding: 32px;
+            backdrop-filter: blur(10px);
+        }
+        .mv-card p { line-height: 1.7; }
+
+        /* ===== Career Timeline ===== */
+        .career-timeline {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            padding-left: 40px;
+        }
+        .career-timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--accent-blue), var(--accent-gold));
+        }
+        .career-step {
+            position: relative;
+            padding: 20px 24px;
+            margin-bottom: 16px;
+            background: white;
+            border-radius: 12px;
+            border: 1px solid var(--border-light);
+            transition: border-color 0.3s, transform 0.3s;
+        }
+        .career-step:hover {
+            border-color: var(--accent-gold);
+            transform: translateX(4px);
+        }
+        .career-step-number {
+            position: absolute;
+            left: -52px;
+            top: 20px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--accent-gold);
+            color: #1A1A2E;
+            font-family: var(--font-display);
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        .career-step h3 {
+            font-family: var(--font-display);
+            font-size: 22px;
+            letter-spacing: 1px;
+            color: var(--text-dark);
+            margin-bottom: 6px;
+        }
+        .career-step p {
+            font-size: 14px;
+            color: var(--text-dark-secondary);
+            line-height: 1.5;
+        }
+
+        /* ===== Valores Grid ===== */
+        .valores-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 40px;
+        }
+        .valor-card {
+            background: rgba(15,20,35,0.6);
+            border: 1px solid rgba(42,74,127,0.15);
+            border-radius: 16px;
+            padding: 28px 24px;
+            backdrop-filter: blur(10px);
+            transition: border-color 0.3s, transform 0.3s;
+            text-align: center;
+        }
+        .valor-card:hover {
+            border-color: var(--accent-gold);
+            transform: translateY(-4px);
+        }
+        .valor-card svg {
+            width: 36px;
+            height: 36px;
+            color: var(--accent-gold);
+            margin-bottom: 16px;
+        }
+        .valor-card h3 {
+            font-family: var(--font-body);
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        .valor-card p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* ===== Collage ===== */
+        .collage-img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+        }
+
+        /* ===== Quienes Somos ===== */
+        .about-text p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--text-dark-secondary);
+            margin-bottom: 16px;
+            max-width: 800px;
+        }
+
         /* ===== Calculator ===== */
         .calc-card {
             max-width: 600px;
@@ -1053,6 +1224,8 @@
         @media (max-width: 1024px) {
             .benefits-grid { grid-template-columns: repeat(2, 1fr); }
             .footer-grid { grid-template-columns: repeat(2, 1fr); }
+            .cultura-grid { grid-template-columns: repeat(2, 1fr); }
+            .valores-grid { grid-template-columns: repeat(2, 1fr); }
         }
 
         @media (max-width: 768px) {
@@ -1066,6 +1239,10 @@
             .functions-grid { grid-template-columns: 1fr; }
             .why-grid { grid-template-columns: 1fr; }
             .why-image { height: 280px; }
+            .team-photos-grid { grid-template-columns: 1fr; }
+            .team-photo-main { grid-row: auto; aspect-ratio: 16/9; }
+            .mission-vision-grid { grid-template-columns: 1fr; }
+            .valores-grid { grid-template-columns: 1fr; }
             .offer-grid { grid-template-columns: 1fr; }
             .offer-card { padding: 32px 24px; }
             .process-steps { grid-template-columns: 1fr; }
@@ -1098,6 +1275,9 @@
             .brand-text { font-size: 22px; }
             .btn-cta { padding: 10px 20px; font-size: 13px; }
             .calc-card { padding: 28px 20px; }
+            .cultura-grid { grid-template-columns: 1fr; }
+            .career-timeline { padding-left: 36px; }
+            .career-step-number { left: -46px; width: 28px; height: 28px; font-size: 16px; }
         }
 
         @media (max-width: 375px) {
@@ -1208,6 +1388,36 @@
             <div class="stat-item reveal">
                 <div class="stat-number">SIN LÍMITE</div>
                 <div class="stat-label">Comisiones</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== QUIÉNES SOMOS ===== -->
+<section class="section-light" id="quienes-somos">
+    <div class="container">
+        <div class="section-label reveal">SOBRE NOSOTROS</div>
+        <h2 class="section-title reveal">¿QUIÉNES SOMOS?</h2>
+        <div class="about-text reveal">
+            <p>ANDEBULL es una empresa peruana con proyección internacional, especializada en servicios de telemarketing y contact center desde Arequipa. Nuestro modelo se fundamenta en la disciplina, el desarrollo humano y la construcción de equipos de alto desempeño preparados para superar cualquier meta.</p>
+            <p>Trabajamos bajo una cultura de resultados, donde la energía, la responsabilidad y el compromiso marcan la diferencia. Promovemos la autonomía, el liderazgo y la sana competitividad como motores del crecimiento.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ===== MISIÓN Y VISIÓN ===== -->
+<section class="section-dark">
+    <div class="container" style="text-align: center;">
+        <div class="section-label reveal">LO QUE NOS MUEVE</div>
+        <h2 class="section-title reveal">MISIÓN Y VISIÓN</h2>
+        <div class="mission-vision-grid">
+            <div class="mv-card reveal">
+                <div class="section-label" style="margin-bottom: 16px;">NUESTRA MISIÓN</div>
+                <p style="color: #ddd;">Impulsar el crecimiento de nuestros trabajadores a través de servicios de telemarketing de alto rendimiento, formando equipos comerciales disciplinados, competitivos y orientados a resultados. Desarrollamos talento desde la base con formación continua y oportunidades reales de crecimiento.</p>
+            </div>
+            <div class="mv-card reveal">
+                <div class="section-label" style="margin-bottom: 16px;">NUESTRA VISIÓN</div>
+                <p style="color: #ddd;">Ser una empresa líder en telemarketing con proyección internacional, reconocida por la excelencia de sus equipos y su cultura de alto desempeño. Aspiramos a ser una organización donde el mérito tiene recompensa y el liderazgo se construye desde dentro.</p>
             </div>
         </div>
     </div>
@@ -1345,8 +1555,108 @@
                     Equipo y herramientas proporcionados
                 </li>
             </ul>
-            <div class="why-image reveal">
-                <img src="logo.png" alt="ANDEBULL">
+            <div class="team-photos-grid reveal">
+                <img src="team5.jpeg" alt="Equipo ANDEBULL - Supervisión" class="team-photo team-photo-main">
+                <img src="team2.jpeg" alt="Asesor comercial ANDEBULL" class="team-photo">
+                <img src="team3.jpeg" alt="Asesora comercial ANDEBULL" class="team-photo">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== CULTURA ANDEBULL ===== -->
+<section class="section-dark">
+    <div class="container" style="text-align: center;">
+        <div class="section-label reveal">NUESTRO EQUIPO</div>
+        <h2 class="section-title reveal">CULTURA ANDEBULL</h2>
+        <p class="section-subtitle reveal" style="margin: 0 auto;">Conoce el ambiente donde vas a trabajar</p>
+        <div class="cultura-grid">
+            <img src="team1.jpeg" alt="Supervisión en ANDEBULL" class="cultura-photo reveal">
+            <img src="team2.jpeg" alt="Asesor ANDEBULL" class="cultura-photo reveal">
+            <img src="team3.jpeg" alt="Asesora ANDEBULL" class="cultura-photo reveal">
+            <img src="team4.jpeg" alt="Asesora trabajando" class="cultura-photo reveal">
+        </div>
+    </div>
+</section>
+
+<!-- ===== COLLAGE ===== -->
+<section class="section-light" style="padding: 60px 0;">
+    <div class="container">
+        <img src="collage.png" alt="ANDEBULL - Oficinas y equipo" class="collage-img reveal">
+    </div>
+</section>
+
+<!-- ===== LÍNEA DE CARRERA ===== -->
+<section class="section-light-alt" id="carrera">
+    <div class="container" style="text-align: center;">
+        <div class="section-label reveal">TU FUTURO</div>
+        <h2 class="section-title reveal">LÍNEA DE CARRERA</h2>
+        <p class="section-subtitle reveal" style="margin: 0 auto 40px;">En ANDEBULL no solo te ofrecemos un trabajo, te ofrecemos un camino claro de crecimiento profesional.</p>
+        <div class="career-timeline" style="text-align: left;">
+            <div class="career-step reveal">
+                <div class="career-step-number">1</div>
+                <h3>ASESOR COMERCIAL</h3>
+                <p>Capacitación completa, primeras ventas con supervisión directa, comisiones sin límite desde el inicio.</p>
+            </div>
+            <div class="career-step reveal">
+                <div class="career-step-number">2</div>
+                <h3>ENTRENADOR</h3>
+                <p>Capacitas a nuevos asesores, compartes técnicas efectivas y desarrollas habilidades de liderazgo.</p>
+            </div>
+            <div class="career-step reveal">
+                <div class="career-step-number">3</div>
+                <h3>JEFE DE EQUIPO</h3>
+                <p>Lideras y supervisas un grupo de asesores, das seguimiento al desempeño y aseguras el cumplimiento de metas.</p>
+            </div>
+            <div class="career-step reveal">
+                <div class="career-step-number">4</div>
+                <h3>SUPERVISOR</h3>
+                <p>Supervisas múltiples equipos, analizas métricas e implementas mejoras en rendimiento general.</p>
+            </div>
+            <div class="career-step reveal">
+                <div class="career-step-number">5</div>
+                <h3>ASISTENTE DE GERENTE</h3>
+                <p>Apoyas en gestión operativa, participas en toma de decisiones y propones mejoras estratégicas.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== VALORES ===== -->
+<section class="section-dark">
+    <div class="container" style="text-align: center;">
+        <div class="section-label reveal">LO QUE NOS DEFINE</div>
+        <h2 class="section-title reveal">NUESTROS VALORES</h2>
+        <div class="valores-grid">
+            <div class="valor-card reveal">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <h3>Disciplina</h3>
+                <p>Constancia y orden como base de resultados extraordinarios.</p>
+            </div>
+            <div class="valor-card reveal">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                <h3>Mentalidad de Resultados</h3>
+                <p>Nos orientamos a metas claras y asumimos responsabilidad total.</p>
+            </div>
+            <div class="valor-card reveal">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                <h3>Actitud y Energía</h3>
+                <p>Determinación y resiliencia ante cualquier desafío.</p>
+            </div>
+            <div class="valor-card reveal">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
+                <h3>Crecimiento Interno</h3>
+                <p>Oportunidades reales de ascenso basadas en mérito.</p>
+            </div>
+            <div class="valor-card reveal">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+                <h3>Trabajo en Equipo</h3>
+                <p>Sana competitividad como motor de superación.</p>
+            </div>
+            <div class="valor-card reveal">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <h3>Liderazgo</h3>
+                <p>Líderes que predican con el ejemplo y guían a sus equipos.</p>
             </div>
         </div>
     </div>
@@ -1588,8 +1898,9 @@
             <div>
                 <h4>NAVEGACIÓN</h4>
                 <ul class="footer-links">
+                    <li><a href="#quienes-somos">Quiénes somos</a></li>
                     <li><a href="#beneficios">Beneficios</a></li>
-                    <li><a href="#funciones">Funciones</a></li>
+                    <li><a href="#carrera">Línea de carrera</a></li>
                     <li><a href="#oferta">Oferta laboral</a></li>
                     <li><a href="#proceso">Proceso</a></li>
                     <li><a href="#ubicacion">Ubicación</a></li>
@@ -1600,6 +1911,10 @@
                 <p>
                     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>
                     944 621 818
+                </p>
+                <p>
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>
+                    945 627 856
                 </p>
                 <p>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
@@ -1718,7 +2033,7 @@ DATOS DEL PUESTO — ASESOR COMERCIAL (CALL CENTER):
   * Venta 31 a 40: S/15 por venta
   * Venta 41 en adelante: S/20 por venta (SIN LÍMITE)
 - Pagos: Sueldo base día 5, comisiones + bonos día 20
-- Contrato: Primeros 2 meses por recibo por honorarios. Desde el 3er mes: planilla REMYPE (incluye EsSalud). En algunos casos desde el 2do mes según desempeño.
+- Contrato: Ingreso a planilla (incluye seguro EsSalud). Los primeros 2 meses se trabaja por recibo por honorarios. Desde el 3er mes: planilla REMYPE (incluye EsSalud). En algunos casos desde el 2do mes según desempeño.
 - Capacitación: 5 días pagada (S/75), de 8:00AM a 1:00PM. Incluye teoría, speech y audios de llamadas. Se asigna jefe de equipo para supervisión. Se esperan 2-3 ventas durante capacitación.
 - Equipo proporcionado: PC, sistema de llamadas, base de datos
 - Experiencia previa NO requerida, pero sí actitud competitiva
@@ -1757,6 +2072,17 @@ Responde breve y REDIRIGE SIEMPRE al dinero y comisiones. NUNCA centres la conve
 - "¿Por qué tan temprano?" → "Trabajamos con clientes en España, nos adaptamos a su horario. A las 2:30PM ya estás libre."
 - "¿Hay part time?" → "No, el puesto es tiempo completo. No hay media jornada."
 - "¿Dónde queda?" → "Calle Francisco Mostajo 307, 3er piso, Yanahuara, Arequipa."
+- "¿Hay línea de carrera?" → "Sí, puedes crecer de Asesor a Entrenador, Jefe de Equipo, Supervisor y hasta Asistente de Gerente. Tu crecimiento depende de tus resultados y actitud."
+- "¿Cuáles son los valores de ANDEBULL?" → "Disciplina, mentalidad de resultados, actitud y energía, crecimiento interno, trabajo en equipo competitivo, liderazgo con responsabilidad e integridad."
+- "¿Qué servicios ofrece ANDEBULL?" → "Asesoría energética personalizada, optimización de tarifas, gestión de contratos energéticos y atención al cliente especializada para el mercado español."
+
+LÍNEA DE CARRERA EN ANDEBULL:
+1. Asesor Comercial (inicio) — capacitación, primeras ventas, comisiones
+2. Entrenador — capacitas a nuevos, desarrollas liderazgo
+3. Jefe de Equipo — lideras un grupo, seguimiento de desempeño
+4. Supervisor — múltiples equipos, métricas, mejoras
+5. Asistente de Gerente — gestión operativa, toma de decisiones
+El crecimiento depende de: resultados en ventas, compromiso, actitud proactiva y habilidades de liderazgo.
 
 6. CIERRE — Siempre lleva a conversión:
 "Si te interesa, dime tu nombre completo, edad y número de celular, y te agendamos entrevista."
